@@ -1,7 +1,9 @@
+import sys
 import os
 import shutil
 from textnode import TextNode, TextType
 from generate import generate_page, generate_pages_recursive
+
 
 def copy_static(source_dir, target_dir):
     """
@@ -28,16 +30,19 @@ def main():
     project_root = os.path.dirname(script_dir)
 
     static_dir = os.path.join(project_root, "static")
-    public_dir = os.path.join(project_root, "public")
+    public_dir = os.path.join(project_root, "docs")
     content_dir = os.path.join(script_dir, "content")
     template_path = os.path.join(script_dir, "template.html")
+
+    basepath = sys.argv[1] if len(sys.argv) > 1 else "/"
 
     copy_static(static_dir, public_dir)
 
     generate_pages_recursive(
         content_dir,
         template_path,
-        public_dir
+        public_dir,
+        basepath
     )
 
 if __name__ == "__main__":
